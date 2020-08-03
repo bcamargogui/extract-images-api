@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; padding-top: 50px; }
+      form { background: #000; padding: 3px; position: fixed; top: 0; width: 100%; }
+      form input { border: 0; padding: 10px; width: 90%; margin-right: 0.5%; }
+      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #images img { margin: 5px; }
+    </style>
+  </head>
+  <body>
+    <form action="">
+      <input id="m" autocomplete="off" placeholder="Type link here..." /><button>Extract images</button>
+    </form>
+    <!-- IMAGES -->
+    <div id="images"></div>
+    <!-- JS IMPORTS -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+      $(function () {
+        var socket = io();
+        
+        $('form').submit(function(e){
+          e.preventDefault(); // prevents page reloading
+          socket.emit('new link', $('#m').val());
+          $('#m').val('');
+          return false;
+        });
+
+        const appendImage = imgData => {
+          const { imgLocation, parentPage } = imgData;
+          const img = new Image();
+          img.src = imgLocation;
+          img.width = 50;
+          document.getElementById('images').appendChild(img);
+        }
+
+        socket.on('new image', appendImage);
+
+        socket.on('fill images', function(imgs) {
+          imgs.forEach(appendImage)
+        })
+
+      });
+    </script>
+  </body>
+</html>

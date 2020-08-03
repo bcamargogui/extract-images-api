@@ -1,0 +1,20 @@
+{
+  "name": "docker_web_app",
+  "version": "1.0.0",
+  "description": "Node.js on Docker",
+  "author": "First Last <first.last@example.com>",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --inspect=0.0.0.0 index.js",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "crawler": "^1.2.2",
+    "express": "^4.16.1",
+    "mongodb": "^3.6.0",
+    "socket.io": "^2.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
